@@ -247,7 +247,7 @@ export function PatientDetail({ patientId }: PatientDetailProps) {
 											</CardTitle>
 										</CardHeader>
 										<CardContent>
-											<dl className="grid grid-cols-2 gap-4">
+											<dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
 												<InfoRow
 													label="Nume complet"
 													value={`${patient.lastName} ${patient.firstName}`}
@@ -307,7 +307,7 @@ export function PatientDetail({ patientId }: PatientDetailProps) {
 											</CardTitle>
 										</CardHeader>
 										<CardContent>
-											<dl className="grid grid-cols-2 gap-4">
+											<dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
 												<InfoRow
 													label="Etiologie"
 													value={

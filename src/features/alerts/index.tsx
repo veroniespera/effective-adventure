@@ -75,7 +75,7 @@ export function Alerts() {
 							value={sortBy}
 							onValueChange={(v) => setSortBy(v as AlertSortKey)}
 						>
-							<SelectTrigger className="w-[200px]">
+							<SelectTrigger className="w-[150px] sm:w-[200px]">
 								<SelectValue />
 							</SelectTrigger>
 							<SelectContent>

@@ -128,7 +128,7 @@ export function getAuditLogColumns(): ColumnDef<AuditLogRow>[] {
 				<DataTableColumnHeader column={column} title="Descriere" />
 			),
 			cell: ({ row }) => (
-				<div className="max-w-[400px] truncate text-sm">
+				<div className="max-w-[150px] truncate text-sm sm:max-w-[250px] md:max-w-[400px]">
 					{row.getValue("description")}
 				</div>
 			),

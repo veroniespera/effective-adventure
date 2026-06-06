@@ -191,9 +191,9 @@ export function PatientNotifications() {
 			</Header>
 
 			<Main className="flex flex-1 flex-col gap-6">
-				<div className="flex items-center justify-between">
-					<div>
-						<h2 className="text-2xl font-bold tracking-tight">
+				<div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+					<div className="min-w-0">
+						<h2 className="text-xl font-bold tracking-tight sm:text-2xl">
 							Notificări
 							{unreadCount > 0 && (
 								<Badge variant="destructive" className="ml-2 text-xs">
@@ -211,6 +211,7 @@ export function PatientNotifications() {
 							size="sm"
 							onClick={handleMarkAllRead}
 							disabled={isPending}
+							className="shrink-0 self-start sm:self-auto"
 						>
 							<CheckCheck className="mr-1.5 h-4 w-4" />
 							Marchează toate ca citite
