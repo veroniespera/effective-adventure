@@ -10,6 +10,8 @@ import { doctor } from "@/db/doctor-schema";
 import { user } from "@/db/auth-schema";
 import { vitalSign } from "@/db/vital-signs-schema";
 import { desc } from "drizzle-orm";
+import { isPreTransplant } from "@/lib/transplant-status";
+import { getNotificationsForPatient } from "@/features/notifications/actions";
 
 export async function getPatientDashboardData() {
 	const session = await getSessionOrThrow();
@@ -51,10 +53,15 @@ export async function getPatientDashboardData() {
 	let doctorName = "";
 	let doctorPhone: string | null = null;
 	const patientRecord = await db
-		.select({ doctorId: patient.doctorId })
+		.select({
+			doctorId: patient.doctorId,
+			transplantDate: patient.transplantDate,
+		})
 		.from(patient)
 		.where(eq(patient.userId, userId))
 		.limit(1);
+
+	const preTransplant = isPreTransplant(patientRecord[0]?.transplantDate);
 
 	if (patientRecord.length > 0 && patientRecord[0].doctorId) {
 		const doctorUser = await db
@@ -75,7 +82,31 @@ export async function getPatientDashboardData() {
 		}
 	}
 
+	// Pre-transplant patients can't access vitals/meds/symptoms/labs/journal,
+	// so surface what they DO have instead: notifications + upcoming appointments.
+	let unreadNotifications = 0;
+	let nextAppointment: { title: string; scheduledAt: Date } | null = null;
+	if (preTransplant) {
+		const notifs = await getNotificationsForPatient();
+		unreadNotifications = notifs.filter((n) => !n.read).length;
+		const now = Date.now();
+		const upcoming = notifs
+			.filter((n) => n.scheduledAt && new Date(n.scheduledAt).getTime() >= now)
+			.sort(
+				(a, b) =>
+					new Date(a.scheduledAt as Date).getTime() -
+					new Date(b.scheduledAt as Date).getTime(),
+			);
+		if (upcoming[0]?.scheduledAt) {
+			nextAppointment = {
+				title: upcoming[0].title,
+				scheduledAt: upcoming[0].scheduledAt,
+			};
+		}
+	}
+
 	return {
+		isPreTransplant: preTransplant,
 		latestVital: latestVital
 			? {
 					systolic: latestVital.systolic,
@@ -85,6 +116,8 @@ export async function getPatientDashboardData() {
 			: null,
 		activeMedsCount: activeMeds.length,
 		unreadMessages,
+		unreadNotifications,
+		nextAppointment,
 		doctorName,
 		doctorPhone,
 	};
