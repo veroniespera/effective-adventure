@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useSyncExternalStore } from "react";
+import { useState, useEffect, useCallback, useSyncExternalStore } from "react";
 import {
 	subscribeUser,
 	unsubscribeUser,
@@ -36,27 +36,42 @@ export function usePushSubscription() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [permissionDenied, setPermissionDenied] = useState(false);
 
+	// Read the live browser state: notification permission + whether a push
+	// subscription currently exists. The permission can change at any time from
+	// the browser's own settings (the user can revoke it), so we always re-derive
+	// `permissionDenied` from the actual value rather than latching it once.
+	const syncState = useCallback(async (syncOwnership: boolean) => {
+		if (!getIsSupported()) return;
+		setPermissionDenied(Notification.permission === "denied");
+		try {
+			const registration = await navigator.serviceWorker.register("/sw.js", {
+				scope: "/",
+				updateViaCache: "none",
+			});
+			const sub = await registration.pushManager.getSubscription();
+			setSubscription(sub);
+			// Ensure the current user owns this browser subscription (server-side
+			// dedupes). Only on initial mount — not on every manual refresh.
+			if (sub && syncOwnership) {
+				const serialized = JSON.parse(JSON.stringify(sub));
+				subscribeUser(serialized).catch(() => {});
+			}
+		} catch {
+			// ignore — leave state as-is
+		}
+	}, []);
+
 	useEffect(() => {
 		if (isSupported) {
-			if (Notification.permission === "denied") {
-				setPermissionDenied(true);
-			}
-
-			navigator.serviceWorker
-				.register("/sw.js", { scope: "/", updateViaCache: "none" })
-				.then((registration) => registration.pushManager.getSubscription())
-				.then((sub) => {
-					setSubscription(sub);
-					// Ensure the current user owns this browser subscription
-					// (no-op if already saved for this user)
-					if (sub) {
-						const serialized = JSON.parse(JSON.stringify(sub));
-						subscribeUser(serialized).catch(() => {});
-					}
-				})
-				.catch(() => {});
+			void syncState(true);
 		}
-	}, [isSupported]);
+	}, [isSupported, syncState]);
+
+	// Re-read the live browser state on demand (e.g. when the toggle is shown),
+	// so a permission revoked outside the app is reflected without a reload.
+	const refresh = useCallback(() => {
+		void syncState(false);
+	}, [syncState]);
 
 	async function subscribeToPush() {
 		setError(null);
@@ -67,6 +82,7 @@ export function usePushSubscription() {
 				setPermissionDenied(true);
 				return false;
 			}
+			setPermissionDenied(false);
 
 			const registration = await navigator.serviceWorker.ready;
 			const sub = await registration.pushManager.subscribe({
@@ -106,5 +122,6 @@ export function usePushSubscription() {
 		error,
 		subscribeToPush,
 		unsubscribeFromPush,
+		refresh,
 	};
 }

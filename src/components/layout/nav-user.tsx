@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/sidebar";
 import { SignOutDialog } from "@/components/sign-out-dialog";
 import { ChangePasswordDialog } from "@/components/change-password-dialog";
+import { NotificationToggle } from "@/components/notification-toggle";
 
 type NavUserProps = {
 	user: {
@@ -88,6 +89,8 @@ export function NavUser({ user }: NavUserProps) {
 								<KeyRound />
 								Schimbă parola
 							</DropdownMenuItem>
+							<NotificationToggle />
+							<DropdownMenuSeparator />
 							<DropdownMenuItem
 								variant="destructive"
 								onClick={() => setOpen(true)}
