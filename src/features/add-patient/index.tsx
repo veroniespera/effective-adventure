@@ -82,11 +82,15 @@ const patientFormSchema = z.object({
 	firstName: z.string().min(1, "Câmpul este obligatoriu."),
 	lastName: z.string().min(1, "Câmpul este obligatoriu."),
 	patientId: z.string().min(1, "Câmpul este obligatoriu."),
-	age: z.number().min(0).max(130).optional(),
+	age: z
+		.number()
+		.min(0, "Vârsta nu poate fi negativă.")
+		.max(130, "Vârstă invalidă.")
+		.optional(),
 	sex: z.enum(sexValues),
-	weightKg: z.number().min(0).optional(),
-	heightCm: z.number().min(0).optional(),
-	bmi: z.number().min(0).optional(),
+	weightKg: z.number().min(0, "Valoare invalidă.").optional(),
+	heightCm: z.number().min(0, "Valoare invalidă.").optional(),
+	bmi: z.number().min(0, "Valoare invalidă.").optional(),
 	nationality: z.string().optional(),
 	preferredLanguage: z.enum(languageValues),
 	transplantDate: z.string().optional(),
