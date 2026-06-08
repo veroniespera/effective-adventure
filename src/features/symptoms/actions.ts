@@ -73,6 +73,13 @@ export async function updateSymptomReport(id: string, values: unknown) {
 		return { error: "Înregistrarea nu a fost găsită." };
 	}
 
+	const today = new Date().toISOString().split("T")[0];
+	if (existing[0].date !== today) {
+		return {
+			error: "Poți modifica doar rapoartele din ziua curentă.",
+		};
+	}
+
 	await db
 		.update(symptomReport)
 		.set(parsed.data)
@@ -111,6 +118,13 @@ export async function deleteSymptomReport(id: string) {
 
 	if (existing.length === 0) {
 		return { error: "Înregistrarea nu a fost găsită." };
+	}
+
+	const today = new Date().toISOString().split("T")[0];
+	if (existing[0].date !== today) {
+		return {
+			error: "Poți șterge doar rapoartele din ziua curentă.",
+		};
 	}
 
 	await db.delete(symptomReport).where(eq(symptomReport.id, id));

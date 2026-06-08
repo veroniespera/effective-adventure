@@ -75,6 +75,13 @@ export async function updateVitalSign(id: string, values: unknown) {
 		return { error: "Înregistrarea nu a fost găsită." };
 	}
 
+	const today = new Date().toISOString().split("T")[0];
+	if (existing[0].date !== today) {
+		return {
+			error: "Poți modifica doar înregistrările din ziua curentă.",
+		};
+	}
+
 	const status = computeVitalStatus(parsed.data);
 
 	await db
@@ -112,6 +119,13 @@ export async function deleteVitalSign(id: string) {
 
 	if (existing.length === 0) {
 		return { error: "Înregistrarea nu a fost găsită." };
+	}
+
+	const today = new Date().toISOString().split("T")[0];
+	if (existing[0].date !== today) {
+		return {
+			error: "Poți șterge doar înregistrările din ziua curentă.",
+		};
 	}
 
 	await db.delete(vitalSign).where(eq(vitalSign.id, id));
