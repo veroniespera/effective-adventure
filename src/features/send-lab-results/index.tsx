@@ -41,6 +41,17 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { Trash2, FileText } from "lucide-react";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface PatientOption {
 	id: string;
@@ -362,22 +373,51 @@ export function SendLabResults() {
 														)}
 													</TableCell>
 													<TableCell>
-														<Button
-															variant="ghost"
-															size="icon"
-															className="text-destructive h-8 w-8"
-															onClick={() => {
-																startTransition(async () => {
-																	const res = await deleteSentLabResult(r.id);
-																	if (res.success) {
-																		toast.success("Rezultatul a fost șters.");
-																		loadData();
-																	}
-																});
-															}}
-														>
-															<Trash2 className="h-4 w-4" />
-														</Button>
+														<AlertDialog>
+															<AlertDialogTrigger asChild>
+																<Button
+																	variant="ghost"
+																	size="icon"
+																	className="text-destructive h-8 w-8"
+																>
+																	<Trash2 className="h-4 w-4" />
+																</Button>
+															</AlertDialogTrigger>
+															<AlertDialogContent>
+																<AlertDialogHeader>
+																	<AlertDialogTitle>
+																		Ștergi acest rezultat?
+																	</AlertDialogTitle>
+																	<AlertDialogDescription>
+																		Această acțiune este permanentă și nu poate
+																		fi anulată.
+																	</AlertDialogDescription>
+																</AlertDialogHeader>
+																<AlertDialogFooter>
+																	<AlertDialogCancel>
+																		Anulează
+																	</AlertDialogCancel>
+																	<AlertDialogAction
+																		onClick={() => {
+																			startTransition(async () => {
+																				const res = await deleteSentLabResult(
+																					r.id,
+																				);
+																				if (res.success) {
+																					toast.success(
+																						"Rezultatul a fost șters.",
+																					);
+																					loadData();
+																				}
+																			});
+																		}}
+																		className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+																	>
+																		Șterge
+																	</AlertDialogAction>
+																</AlertDialogFooter>
+															</AlertDialogContent>
+														</AlertDialog>
 													</TableCell>
 												</TableRow>
 											))}

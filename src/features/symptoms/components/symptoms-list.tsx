@@ -6,6 +6,17 @@ import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { deleteSymptomReport } from "../actions";
 import { SymptomsForm } from "./symptoms-form";
 
@@ -90,15 +101,38 @@ export function SymptomsList({ data, onUpdate }: SymptomsListProps) {
 											>
 												<Pencil className="h-4 w-4" />
 											</Button>
-											<Button
-												variant="ghost"
-												size="icon"
-												className="h-8 w-8 text-destructive hover:text-destructive"
-												onClick={() => handleDelete(report.id)}
-												disabled={isPending}
-											>
-												<Trash2 className="h-4 w-4" />
-											</Button>
+											<AlertDialog>
+												<AlertDialogTrigger asChild>
+													<Button
+														variant="ghost"
+														size="icon"
+														className="h-8 w-8 text-destructive hover:text-destructive"
+														disabled={isPending}
+													>
+														<Trash2 className="h-4 w-4" />
+													</Button>
+												</AlertDialogTrigger>
+												<AlertDialogContent>
+													<AlertDialogHeader>
+														<AlertDialogTitle>
+															Ștergi acest raport?
+														</AlertDialogTitle>
+														<AlertDialogDescription>
+															Această acțiune este permanentă și nu poate fi
+															anulată.
+														</AlertDialogDescription>
+													</AlertDialogHeader>
+													<AlertDialogFooter>
+														<AlertDialogCancel>Anulează</AlertDialogCancel>
+														<AlertDialogAction
+															onClick={() => handleDelete(report.id)}
+															className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+														>
+															Șterge
+														</AlertDialogAction>
+													</AlertDialogFooter>
+												</AlertDialogContent>
+											</AlertDialog>
 										</>
 									)}
 								</div>

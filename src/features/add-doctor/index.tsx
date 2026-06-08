@@ -215,7 +215,15 @@ export function AddDoctor() {
 
 						<Separator />
 
-						<div className="flex justify-end">
+						<div className="flex justify-end gap-2">
+							<Button
+								type="button"
+								variant="outline"
+								onClick={() => form.reset(defaultValues)}
+								disabled={isPending}
+							>
+								Resetează formularul
+							</Button>
 							<Button type="submit" disabled={isPending}>
 								{isPending ? "Se salvează..." : "Adaugă medic"}
 							</Button>

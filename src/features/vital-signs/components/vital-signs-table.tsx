@@ -14,6 +14,17 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { type VitalEntry } from "../data/schema";
 import { deleteVitalSign } from "../actions";
 import { VitalSignsForm } from "./vital-signs-form";
@@ -149,15 +160,38 @@ export function VitalSignsTable({ data, onUpdate }: VitalSignsTableProps) {
 													>
 														<Pencil className="h-4 w-4" />
 													</Button>
-													<Button
-														variant="ghost"
-														size="icon"
-														className="h-8 w-8 text-destructive hover:text-destructive"
-														onClick={() => handleDelete(entry.id)}
-														disabled={isPending}
-													>
-														<Trash2 className="h-4 w-4" />
-													</Button>
+													<AlertDialog>
+														<AlertDialogTrigger asChild>
+															<Button
+																variant="ghost"
+																size="icon"
+																className="h-8 w-8 text-destructive hover:text-destructive"
+																disabled={isPending}
+															>
+																<Trash2 className="h-4 w-4" />
+															</Button>
+														</AlertDialogTrigger>
+														<AlertDialogContent>
+															<AlertDialogHeader>
+																<AlertDialogTitle>
+																	Ștergi această înregistrare?
+																</AlertDialogTitle>
+																<AlertDialogDescription>
+																	Această acțiune este permanentă și nu poate fi
+																	anulată.
+																</AlertDialogDescription>
+															</AlertDialogHeader>
+															<AlertDialogFooter>
+																<AlertDialogCancel>Anulează</AlertDialogCancel>
+																<AlertDialogAction
+																	onClick={() => handleDelete(entry.id)}
+																	className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+																>
+																	Șterge
+																</AlertDialogAction>
+															</AlertDialogFooter>
+														</AlertDialogContent>
+													</AlertDialog>
 												</div>
 											</TableCell>
 										)}
