@@ -10,11 +10,27 @@ import { useInstallPrompt } from "@/hooks/use-install-prompt";
  * install banner. Hidden when the app is already installed.
  */
 export function InstallAppButton() {
-	const { canInstall, isIOS, isStandalone, triggerInstall } =
+	const { canInstall, isIOS, isStandalone, isInstalled, triggerInstall } =
 		useInstallPrompt();
 
-	// Already installed → nothing to offer.
+	// Running inside the installed app → nothing to offer.
 	if (isStandalone) return null;
+
+	// Installed but opened in the browser → point the user to the app.
+	// (The web platform can't launch an installed PWA programmatically.)
+	if (isInstalled) {
+		return (
+			<div className="px-2 py-1.5">
+				<span className="flex items-center gap-2 text-sm">
+					<Download className="size-4" />
+					Deschide în aplicație
+				</span>
+				<p className="mt-1 ps-6 text-xs text-muted-foreground">
+					Aplicația este instalată — deschide-o din ecranul principal.
+				</p>
+			</div>
+		);
+	}
 
 	// Android/desktop: native install prompt available.
 	if (canInstall) {

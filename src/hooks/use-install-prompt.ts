@@ -37,6 +37,22 @@ export function useInstallPrompt() {
 
 	const deferredPromptRef = useRef<BeforeInstallPromptEvent | null>(null);
 	const [canInstall, setCanInstall] = useState(false);
+	const [isInstalled, setIsInstalled] = useState(false);
+
+	// Detect whether the PWA is already installed while running in the browser
+	// (Chrome/Android via getInstalledRelatedApps). Lets us offer "open in app"
+	// instead of "install". Unsupported browsers leave this false.
+	useEffect(() => {
+		const nav = navigator as Navigator & {
+			getInstalledRelatedApps?: () => Promise<unknown[]>;
+		};
+		if (typeof nav.getInstalledRelatedApps === "function") {
+			nav
+				.getInstalledRelatedApps()
+				.then((apps) => setIsInstalled(apps.length > 0))
+				.catch(() => {});
+		}
+	}, []);
 
 	useEffect(() => {
 		function handleBeforeInstallPrompt(e: Event) {
@@ -73,6 +89,7 @@ export function useInstallPrompt() {
 		canInstall,
 		isIOS,
 		isStandalone,
+		isInstalled,
 		triggerInstall,
 	};
 }
