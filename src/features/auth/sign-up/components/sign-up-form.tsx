@@ -79,6 +79,7 @@ export function SignUpForm({
 	return (
 		<Form {...form}>
 			<form
+				noValidate
 				onSubmit={form.handleSubmit(onSubmit)}
 				className={cn("grid gap-3", className)}
 				{...props}

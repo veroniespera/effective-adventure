@@ -268,7 +268,7 @@ export function SendNotifications() {
 								</CardDescription>
 							</CardHeader>
 							<CardContent>
-								<form onSubmit={handleSubmit} className="space-y-4">
+								<form noValidate onSubmit={handleSubmit} className="space-y-4">
 									<div className="space-y-1.5">
 										<Label>Destinatari</Label>
 										<Select

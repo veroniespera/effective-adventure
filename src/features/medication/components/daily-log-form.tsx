@@ -261,7 +261,7 @@ export function DailyLogForm({
 				)}
 
 				{(hasUnlogged || futureMeds.length > 0) && (
-					<form onSubmit={handleSubmit} className="space-y-4">
+					<form noValidate onSubmit={handleSubmit} className="space-y-4">
 						<div className="space-y-3">
 							{activeMeds.map((med) => {
 								const dailyDoses = getDailyDoseCount(med.frequency);

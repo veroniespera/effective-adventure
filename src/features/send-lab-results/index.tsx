@@ -226,7 +226,7 @@ export function SendLabResults() {
 								</CardDescription>
 							</CardHeader>
 							<CardContent>
-								<form onSubmit={handleSubmit} className="space-y-6">
+								<form noValidate onSubmit={handleSubmit} className="space-y-6">
 									<div className="space-y-1.5">
 										<Label htmlFor="patient">Pacient</Label>
 										<Select

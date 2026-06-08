@@ -144,6 +144,7 @@ export function EditDoctorSheet({
 
 				<Form {...form}>
 					<form
+						noValidate
 						onSubmit={form.handleSubmit(onSubmit)}
 						className="space-y-4 px-1 pt-4"
 					>

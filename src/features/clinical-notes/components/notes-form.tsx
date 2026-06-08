@@ -61,7 +61,7 @@ export function NotesForm({ patientId, onSuccess }: NotesFormProps) {
 						Nota a fost salvată cu succes.
 					</div>
 				)}
-				<form onSubmit={handleSubmit} className="space-y-4">
+				<form noValidate onSubmit={handleSubmit} className="space-y-4">
 					<div className="space-y-1.5">
 						<Label htmlFor="visitDate">Data vizitei</Label>
 						<Input

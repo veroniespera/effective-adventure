@@ -98,6 +98,7 @@ export function AddDoctor() {
 
 				<Form {...form}>
 					<form
+						noValidate
 						onSubmit={form.handleSubmit(onSubmit)}
 						className="space-y-6 pb-10"
 					>

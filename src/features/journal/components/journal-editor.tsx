@@ -74,7 +74,7 @@ export function JournalEditor({ onSuccess }: JournalEditorProps) {
 						Intrarea a fost salvată cu succes.
 					</div>
 				)}
-				<form onSubmit={handleSubmit} className="space-y-4">
+				<form noValidate onSubmit={handleSubmit} className="space-y-4">
 					<div className="space-y-2">
 						<Label>Cum vă simțiți astăzi?</Label>
 						<div className="flex flex-wrap gap-2">

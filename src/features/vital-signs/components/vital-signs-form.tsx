@@ -118,6 +118,7 @@ export function VitalSignsForm({
 				)}
 				<Form {...form}>
 					<form
+						noValidate
 						onSubmit={form.handleSubmit(onSubmit)}
 						className="grid gap-4 sm:grid-cols-2"
 					>

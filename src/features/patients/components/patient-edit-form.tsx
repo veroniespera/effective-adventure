@@ -266,6 +266,7 @@ export function PatientEditForm({
 
 			<Form {...form}>
 				<form
+					noValidate
 					onSubmit={form.handleSubmit(onSubmit, onInvalid)}
 					className="space-y-8"
 				>

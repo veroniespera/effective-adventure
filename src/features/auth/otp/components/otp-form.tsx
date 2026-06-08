@@ -55,6 +55,7 @@ export function OtpForm({ className, ...props }: OtpFormProps) {
 	return (
 		<Form {...form}>
 			<form
+				noValidate
 				onSubmit={form.handleSubmit(onSubmit)}
 				className={cn("grid gap-2", className)}
 				{...props}
