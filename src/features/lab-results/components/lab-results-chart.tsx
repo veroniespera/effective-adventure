@@ -80,9 +80,9 @@ export function LabResultsChart({ results, testName }: LabResultsChartProps) {
 						<Line
 							type="monotone"
 							dataKey="value"
-							stroke="hsl(var(--primary))"
+							stroke="var(--primary)"
 							strokeWidth={2}
-							dot={{ r: 4, fill: "hsl(var(--primary))" }}
+							dot={{ r: 4, fill: "var(--primary)" }}
 						/>
 					</LineChart>
 				</ResponsiveContainer>

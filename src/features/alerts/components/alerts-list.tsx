@@ -86,7 +86,7 @@ export function AlertsList({
 				style={{
 					borderLeftColor:
 						alert.severity === "critical"
-							? "hsl(var(--destructive))"
+							? "var(--destructive)"
 							: alert.severity === "warning"
 								? "#f97316"
 								: "#3b82f6",
