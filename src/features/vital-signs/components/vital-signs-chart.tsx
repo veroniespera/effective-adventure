@@ -30,7 +30,6 @@ export function VitalSignsChart({ data }: VitalSignsChartProps) {
 		puls: e.pulse,
 		temperatura: e.temperature,
 	}));
-	const showDots = chartData.length <= 20;
 	const trimmed = data.length > RECENT;
 
 	return (
@@ -69,7 +68,7 @@ export function VitalSignsChart({ data }: VitalSignsChartProps) {
 								dataKey="sistolica"
 								stroke="hsl(var(--primary))"
 								strokeWidth={2}
-								dot={showDots ? { r: 4, fill: "hsl(var(--primary))" } : false}
+								dot={{ r: 4, fill: "hsl(var(--primary))" }}
 								activeDot={{ r: 6 }}
 							/>
 							<Line
@@ -77,11 +76,7 @@ export function VitalSignsChart({ data }: VitalSignsChartProps) {
 								dataKey="diastolica"
 								stroke="hsl(var(--muted-foreground))"
 								strokeWidth={2}
-								dot={
-									showDots
-										? { r: 4, fill: "hsl(var(--muted-foreground))" }
-										: false
-								}
+								dot={{ r: 4, fill: "hsl(var(--muted-foreground))" }}
 								activeDot={{ r: 6 }}
 							/>
 						</LineChart>
@@ -121,7 +116,7 @@ export function VitalSignsChart({ data }: VitalSignsChartProps) {
 								dataKey="puls"
 								stroke="hsl(var(--primary))"
 								strokeWidth={2}
-								dot={showDots ? { r: 4, fill: "hsl(var(--primary))" } : false}
+								dot={{ r: 4, fill: "hsl(var(--primary))" }}
 								activeDot={{ r: 6 }}
 							/>
 						</LineChart>

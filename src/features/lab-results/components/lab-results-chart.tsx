@@ -44,7 +44,6 @@ export function LabResultsChart({ results, testName }: LabResultsChartProps) {
 	// Plot only the most recent results so the chart stays readable as history grows.
 	const RECENT = 24;
 	const recent = chartData.slice(-RECENT);
-	const showDots = recent.length <= 20;
 	const ref = recent[0];
 
 	return (
@@ -83,7 +82,7 @@ export function LabResultsChart({ results, testName }: LabResultsChartProps) {
 							dataKey="value"
 							stroke="hsl(var(--primary))"
 							strokeWidth={2}
-							dot={showDots ? { r: 4, fill: "hsl(var(--primary))" } : false}
+							dot={{ r: 4, fill: "hsl(var(--primary))" }}
 						/>
 					</LineChart>
 				</ResponsiveContainer>
