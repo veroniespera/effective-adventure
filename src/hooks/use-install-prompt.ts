@@ -5,7 +5,15 @@ import { useState, useEffect, useRef, useSyncExternalStore } from "react";
 const emptySubscribe = () => () => {};
 
 function getIsStandalone() {
-	return window.matchMedia("(display-mode: standalone)").matches;
+	// Detect an installed PWA across platforms: display-mode (Android/desktop)
+	// and navigator.standalone (iOS Safari home-screen apps).
+	return (
+		window.matchMedia("(display-mode: standalone)").matches ||
+		window.matchMedia("(display-mode: fullscreen)").matches ||
+		window.matchMedia("(display-mode: minimal-ui)").matches ||
+		("standalone" in navigator &&
+			(navigator as Navigator & { standalone?: boolean }).standalone === true)
+	);
 }
 
 function getIsIOS() {
