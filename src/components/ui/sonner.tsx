@@ -13,12 +13,13 @@ export function Toaster({ ...props }: ToasterProps) {
 					"--normal-bg": "var(--popover)",
 					"--normal-text": "var(--popover-foreground)",
 					"--normal-border": "var(--border)",
-					// success uses the blue accent, error a pastel pink (see globals.css)
+					// success uses the blue accent, error a pastel pink (see globals.css).
+					// Borders stay neutral so the popups don't get a colored outline.
 					"--success-bg": "var(--toast-success-bg)",
-					"--success-border": "var(--toast-success-border)",
+					"--success-border": "var(--border)",
 					"--success-text": "var(--toast-success-text)",
 					"--error-bg": "var(--toast-error-bg)",
-					"--error-border": "var(--toast-error-border)",
+					"--error-border": "var(--border)",
 					"--error-text": "var(--toast-error-text)",
 				} as React.CSSProperties
 			}

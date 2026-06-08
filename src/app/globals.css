@@ -81,10 +81,8 @@
 	--sidebar-ring: oklch(0.708 0 0);
 	/* toast: success = blue accent, error = pastel pink */
 	--toast-success-bg: oklch(0.96 0.025 240);
-	--toast-success-border: oklch(0.86 0.06 240);
 	--toast-success-text: oklch(0.45 0.13 242);
 	--toast-error-bg: oklch(0.95 0.03 8);
-	--toast-error-border: oklch(0.88 0.06 8);
 	--toast-error-text: oklch(0.5 0.16 12);
 }
 
@@ -122,10 +120,8 @@
 	--sidebar-ring: oklch(0.556 0 0);
 	/* toast: success = blue accent, error = pastel pink */
 	--toast-success-bg: oklch(0.32 0.06 240);
-	--toast-success-border: oklch(0.46 0.09 240);
 	--toast-success-text: oklch(0.9 0.05 238);
 	--toast-error-bg: oklch(0.33 0.06 8);
-	--toast-error-border: oklch(0.46 0.08 8);
 	--toast-error-text: oklch(0.92 0.045 8);
 }
 
