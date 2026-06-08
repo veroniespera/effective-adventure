@@ -40,12 +40,14 @@ interface SymptomsFormProps {
 	editId?: string;
 	defaultValues?: SymptomReportFormValues;
 	onSuccess?: () => void;
+	onCancel?: () => void;
 }
 
 export function SymptomsForm({
 	editId,
 	defaultValues,
 	onSuccess,
+	onCancel,
 }: SymptomsFormProps) {
 	const [isPending, startTransition] = useTransition();
 	const [submitted, setSubmitted] = useState(false);
@@ -192,13 +194,25 @@ export function SymptomsForm({
 								</FormItem>
 							)}
 						/>
-						<Button type="submit" disabled={isPending}>
-							{isPending
-								? "Se salvează..."
-								: editId
-									? "Actualizează"
-									: "Trimite raport"}
-						</Button>
+						<div className="flex gap-2">
+							<Button type="submit" disabled={isPending}>
+								{isPending
+									? "Se salvează..."
+									: editId
+										? "Actualizează"
+										: "Trimite raport"}
+							</Button>
+							{onCancel && (
+								<Button
+									type="button"
+									variant="outline"
+									onClick={onCancel}
+									disabled={isPending}
+								>
+									Anulează
+								</Button>
+							)}
+						</div>
 					</form>
 				</Form>
 			</CardContent>

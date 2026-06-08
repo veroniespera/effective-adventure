@@ -47,25 +47,23 @@ export function SymptomsList({ data, onUpdate }: SymptomsListProps) {
 		});
 	}
 
-	if (editingReport) {
-		return (
-			<SymptomsForm
-				editId={editingReport.id}
-				defaultValues={{
-					symptoms: editingReport.symptoms,
-					severity: editingReport.severity,
-					notes: editingReport.notes ?? "",
-				}}
-				onSuccess={() => {
-					setEditingReport(null);
-					onUpdate?.();
-				}}
-			/>
-		);
-	}
-
 	return (
 		<div className="space-y-3">
+			{editingReport && (
+				<SymptomsForm
+					editId={editingReport.id}
+					defaultValues={{
+						symptoms: editingReport.symptoms,
+						severity: editingReport.severity,
+						notes: editingReport.notes ?? "",
+					}}
+					onSuccess={() => {
+						setEditingReport(null);
+						onUpdate?.();
+					}}
+					onCancel={() => setEditingReport(null)}
+				/>
+			)}
 			{data.length === 0 && (
 				<p className="text-sm text-muted-foreground">
 					Nu exista rapoarte de simptome.

@@ -31,12 +31,14 @@ interface VitalSignsFormProps {
 	editId?: string;
 	defaultValues?: VitalEntryFormValues;
 	onSuccess?: () => void;
+	onCancel?: () => void;
 }
 
 export function VitalSignsForm({
 	editId,
 	defaultValues,
 	onSuccess,
+	onCancel,
 }: VitalSignsFormProps) {
 	const [isPending, startTransition] = useTransition();
 	const [submitted, setSubmitted] = useState(false);
@@ -226,14 +228,24 @@ export function VitalSignsForm({
 								</FormItem>
 							)}
 						/>
-						<div className="flex items-end">
-							<Button type="submit" className="w-full" disabled={isPending}>
+						<div className="flex items-end gap-2">
+							<Button type="submit" className="flex-1" disabled={isPending}>
 								{isPending
 									? "Se salvează..."
 									: editId
 										? "Actualizează"
 										: "Salvează"}
 							</Button>
+							{onCancel && (
+								<Button
+									type="button"
+									variant="outline"
+									onClick={onCancel}
+									disabled={isPending}
+								>
+									Anulează
+								</Button>
+							)}
 						</div>
 					</form>
 				</Form>

@@ -39,136 +39,136 @@ export function VitalSignsTable({ data, onUpdate }: VitalSignsTableProps) {
 		});
 	}
 
-	if (editingEntry) {
-		return (
-			<VitalSignsForm
-				editId={editingEntry.id}
-				defaultValues={{
-					systolic: editingEntry.systolic,
-					diastolic: editingEntry.diastolic,
-					temperature: editingEntry.temperature,
-					pulse: editingEntry.pulse,
-					weight: editingEntry.weight,
-				}}
-				onSuccess={() => {
-					setEditingEntry(null);
-					onUpdate?.();
-				}}
-			/>
-		);
-	}
-
 	return (
-		<Card>
-			<CardHeader>
-				<CardTitle>Istoric semne vitale</CardTitle>
-			</CardHeader>
-			<CardContent>
-				<Table>
-					<TableHeader>
-						<TableRow>
-							<TableHead>Data</TableHead>
-							<TableHead>Stare</TableHead>
-							<TableHead>Tensiune (mmHg)</TableHead>
-							<TableHead>Temperatură (°C)</TableHead>
-							<TableHead>Puls (bpm)</TableHead>
-							<TableHead>Greutate (kg)</TableHead>
-							{onUpdate && <TableHead className="w-20">Acțiuni</TableHead>}
-						</TableRow>
-					</TableHeader>
-					<TableBody>
-						{data.length === 0 && (
+		<>
+			{editingEntry && (
+				<VitalSignsForm
+					editId={editingEntry.id}
+					defaultValues={{
+						systolic: editingEntry.systolic,
+						diastolic: editingEntry.diastolic,
+						temperature: editingEntry.temperature,
+						pulse: editingEntry.pulse,
+						weight: editingEntry.weight,
+					}}
+					onSuccess={() => {
+						setEditingEntry(null);
+						onUpdate?.();
+					}}
+					onCancel={() => setEditingEntry(null)}
+				/>
+			)}
+			<Card>
+				<CardHeader>
+					<CardTitle>Istoric semne vitale</CardTitle>
+				</CardHeader>
+				<CardContent>
+					<Table>
+						<TableHeader>
 							<TableRow>
-								<TableCell
-									colSpan={onUpdate ? 7 : 6}
-									className="text-center text-muted-foreground"
-								>
-									Nu există înregistrări.
-								</TableCell>
+								<TableHead>Data</TableHead>
+								<TableHead>Stare</TableHead>
+								<TableHead>Tensiune (mmHg)</TableHead>
+								<TableHead>Temperatură (°C)</TableHead>
+								<TableHead>Puls (bpm)</TableHead>
+								<TableHead>Greutate (kg)</TableHead>
+								{onUpdate && <TableHead className="w-20">Acțiuni</TableHead>}
 							</TableRow>
-						)}
-						{data.map((entry) => {
-							const isWarning = entry.status === "warning";
-							const isCritical = entry.status === "critical";
-							const rowClass = isCritical
-								? "bg-destructive/5"
-								: isWarning
-									? "bg-orange-500/5"
-									: "";
-
-							return (
-								<TableRow key={entry.id} className={rowClass}>
-									<TableCell>{entry.date}</TableCell>
-									<TableCell>
-										<StatusBadge status={entry.status} />
+						</TableHeader>
+						<TableBody>
+							{data.length === 0 && (
+								<TableRow>
+									<TableCell
+										colSpan={onUpdate ? 7 : 6}
+										className="text-center text-muted-foreground"
+									>
+										Nu există înregistrări.
 									</TableCell>
-									<TableCell>
-										<span
-											className={
-												entry.systolic >= 140 ||
-												entry.diastolic >= 90 ||
-												entry.systolic < 90 ||
-												entry.diastolic < 60
-													? "font-semibold text-destructive"
-													: ""
-											}
-										>
-											{entry.systolic}/{entry.diastolic}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span
-											className={
-												entry.temperature >= 37.5 || entry.temperature < 35
-													? "font-semibold text-destructive"
-													: ""
-											}
-										>
-											{entry.temperature.toFixed(1)}
-										</span>
-									</TableCell>
-									<TableCell>
-										<span
-											className={
-												entry.pulse > 100 || entry.pulse < 50
-													? "font-semibold text-destructive"
-													: ""
-											}
-										>
-											{entry.pulse}
-										</span>
-									</TableCell>
-									<TableCell>{entry.weight.toFixed(1)}</TableCell>
-									{onUpdate && (
-										<TableCell>
-											<div className="flex gap-1">
-												<Button
-													variant="ghost"
-													size="icon"
-													className="h-8 w-8"
-													onClick={() => setEditingEntry(entry)}
-												>
-													<Pencil className="h-4 w-4" />
-												</Button>
-												<Button
-													variant="ghost"
-													size="icon"
-													className="h-8 w-8 text-destructive hover:text-destructive"
-													onClick={() => handleDelete(entry.id)}
-													disabled={isPending}
-												>
-													<Trash2 className="h-4 w-4" />
-												</Button>
-											</div>
-										</TableCell>
-									)}
 								</TableRow>
-							);
-						})}
-					</TableBody>
-				</Table>
-			</CardContent>
-		</Card>
+							)}
+							{data.map((entry) => {
+								const isWarning = entry.status === "warning";
+								const isCritical = entry.status === "critical";
+								const rowClass = isCritical
+									? "bg-destructive/5"
+									: isWarning
+										? "bg-orange-500/5"
+										: "";
+
+								return (
+									<TableRow key={entry.id} className={rowClass}>
+										<TableCell>{entry.date}</TableCell>
+										<TableCell>
+											<StatusBadge status={entry.status} />
+										</TableCell>
+										<TableCell>
+											<span
+												className={
+													entry.systolic >= 140 ||
+													entry.diastolic >= 90 ||
+													entry.systolic < 90 ||
+													entry.diastolic < 60
+														? "font-semibold text-destructive"
+														: ""
+												}
+											>
+												{entry.systolic}/{entry.diastolic}
+											</span>
+										</TableCell>
+										<TableCell>
+											<span
+												className={
+													entry.temperature >= 37.5 || entry.temperature < 35
+														? "font-semibold text-destructive"
+														: ""
+												}
+											>
+												{entry.temperature.toFixed(1)}
+											</span>
+										</TableCell>
+										<TableCell>
+											<span
+												className={
+													entry.pulse > 100 || entry.pulse < 50
+														? "font-semibold text-destructive"
+														: ""
+												}
+											>
+												{entry.pulse}
+											</span>
+										</TableCell>
+										<TableCell>{entry.weight.toFixed(1)}</TableCell>
+										{onUpdate && (
+											<TableCell>
+												<div className="flex gap-1">
+													<Button
+														variant="ghost"
+														size="icon"
+														className="h-8 w-8"
+														onClick={() => setEditingEntry(entry)}
+													>
+														<Pencil className="h-4 w-4" />
+													</Button>
+													<Button
+														variant="ghost"
+														size="icon"
+														className="h-8 w-8 text-destructive hover:text-destructive"
+														onClick={() => handleDelete(entry.id)}
+														disabled={isPending}
+													>
+														<Trash2 className="h-4 w-4" />
+													</Button>
+												</div>
+											</TableCell>
+										)}
+									</TableRow>
+								);
+							})}
+						</TableBody>
+					</Table>
+				</CardContent>
+			</Card>
+		</>
 	);
 }
 
