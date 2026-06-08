@@ -18,6 +18,7 @@ import {
 import { SignOutDialog } from "@/components/sign-out-dialog";
 import { ChangePasswordDialog } from "@/components/change-password-dialog";
 import { NotificationToggle } from "@/components/notification-toggle";
+import { InstallAppButton } from "@/components/install-app-button";
 
 type NavUserProps = {
 	user: {
@@ -90,6 +91,7 @@ export function NavUser({ user }: NavUserProps) {
 								Schimbă parola
 							</DropdownMenuItem>
 							<NotificationToggle />
+							<InstallAppButton />
 							<DropdownMenuSeparator />
 							<DropdownMenuItem
 								variant="destructive"
