@@ -3,7 +3,6 @@ import {
 	Card,
 	CardContent,
 	CardDescription,
-	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
@@ -32,25 +31,6 @@ export function SignUp() {
 				<CardContent>
 					<SignUpForm />
 				</CardContent>
-				<CardFooter>
-					<p className="px-8 text-center text-sm text-muted-foreground">
-						Prin crearea unui cont, ești de acord cu{" "}
-						<a
-							href="/terms"
-							className="underline underline-offset-4 hover:text-primary"
-						>
-							Termenii de utilizare
-						</a>{" "}
-						și{" "}
-						<a
-							href="/privacy"
-							className="underline underline-offset-4 hover:text-primary"
-						>
-							Politica de confidențialitate
-						</a>
-						.
-					</p>
-				</CardFooter>
 			</Card>
 		</AuthLayout>
 	);
