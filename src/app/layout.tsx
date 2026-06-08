@@ -8,6 +8,10 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 // real background color (light/dark/system) at runtime.
 export const viewport: Viewport = {
 	themeColor: "#ffffff",
+	// Let content reach into the safe-area insets so the area near the phone's
+	// bottom bar shows the app background instead of a black band (where the OS
+	// allows — iOS / installed PWA).
+	viewportFit: "cover",
 };
 
 export default function RootLayout({

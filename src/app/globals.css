@@ -132,8 +132,11 @@
 	* {
 		@apply border-border outline-ring/50;
 	}
+	html {
+		@apply bg-background;
+	}
 	body {
-		@apply bg-background text-foreground;
+		@apply min-h-svh bg-background text-foreground;
 	}
 }
 
