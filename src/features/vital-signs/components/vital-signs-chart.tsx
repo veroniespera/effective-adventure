@@ -17,20 +17,32 @@ interface VitalSignsChartProps {
 	data: VitalEntry[];
 }
 
+const RECENT = 30;
+
 export function VitalSignsChart({ data }: VitalSignsChartProps) {
-	const chartData = data.map((e) => ({
+	// Keep the trend readable no matter how much history accumulates: plot only
+	// the most recent measurements (full history stays in the table below).
+	const sorted = [...data].sort((a, b) => a.date.localeCompare(b.date));
+	const chartData = sorted.slice(-RECENT).map((e) => ({
 		date: e.date.slice(5),
 		sistolica: e.systolic,
 		diastolica: e.diastolic,
 		puls: e.pulse,
 		temperatura: e.temperature,
 	}));
+	const showDots = chartData.length <= 20;
+	const trimmed = data.length > RECENT;
 
 	return (
 		<div className="grid gap-4 lg:grid-cols-2">
 			<Card>
 				<CardHeader>
 					<CardTitle className="text-base">Tensiune arteriala</CardTitle>
+					{trimmed && (
+						<p className="text-xs text-muted-foreground">
+							Ultimele {RECENT} măsurători
+						</p>
+					)}
 				</CardHeader>
 				<CardContent>
 					<ResponsiveContainer width="100%" height={220}>
@@ -41,6 +53,8 @@ export function VitalSignsChart({ data }: VitalSignsChartProps) {
 								fontSize={11}
 								tickLine={false}
 								axisLine={false}
+								interval="preserveStartEnd"
+								minTickGap={24}
 							/>
 							<YAxis
 								fontSize={11}
@@ -55,7 +69,7 @@ export function VitalSignsChart({ data }: VitalSignsChartProps) {
 								dataKey="sistolica"
 								stroke="hsl(var(--primary))"
 								strokeWidth={2}
-								dot={{ r: 4, fill: "hsl(var(--primary))" }}
+								dot={showDots ? { r: 4, fill: "hsl(var(--primary))" } : false}
 								activeDot={{ r: 6 }}
 							/>
 							<Line
@@ -63,7 +77,11 @@ export function VitalSignsChart({ data }: VitalSignsChartProps) {
 								dataKey="diastolica"
 								stroke="hsl(var(--muted-foreground))"
 								strokeWidth={2}
-								dot={{ r: 4, fill: "hsl(var(--muted-foreground))" }}
+								dot={
+									showDots
+										? { r: 4, fill: "hsl(var(--muted-foreground))" }
+										: false
+								}
 								activeDot={{ r: 6 }}
 							/>
 						</LineChart>
@@ -73,6 +91,11 @@ export function VitalSignsChart({ data }: VitalSignsChartProps) {
 			<Card>
 				<CardHeader>
 					<CardTitle className="text-base">Puls (bpm)</CardTitle>
+					{trimmed && (
+						<p className="text-xs text-muted-foreground">
+							Ultimele {RECENT} măsurători
+						</p>
+					)}
 				</CardHeader>
 				<CardContent>
 					<ResponsiveContainer width="100%" height={220}>
@@ -83,6 +106,8 @@ export function VitalSignsChart({ data }: VitalSignsChartProps) {
 								fontSize={11}
 								tickLine={false}
 								axisLine={false}
+								interval="preserveStartEnd"
+								minTickGap={24}
 							/>
 							<YAxis
 								fontSize={11}
@@ -96,7 +121,7 @@ export function VitalSignsChart({ data }: VitalSignsChartProps) {
 								dataKey="puls"
 								stroke="hsl(var(--primary))"
 								strokeWidth={2}
-								dot={{ r: 4, fill: "hsl(var(--primary))" }}
+								dot={showDots ? { r: 4, fill: "hsl(var(--primary))" } : false}
 								activeDot={{ r: 6 }}
 							/>
 						</LineChart>

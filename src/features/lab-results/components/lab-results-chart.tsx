@@ -41,7 +41,11 @@ export function LabResultsChart({ results, testName }: LabResultsChartProps) {
 	}[];
 
 	if (chartData.length === 0) return null;
-	const ref = chartData[0];
+	// Plot only the most recent results so the chart stays readable as history grows.
+	const RECENT = 24;
+	const recent = chartData.slice(-RECENT);
+	const showDots = recent.length <= 20;
+	const ref = recent[0];
 
 	return (
 		<Card>
@@ -50,13 +54,15 @@ export function LabResultsChart({ results, testName }: LabResultsChartProps) {
 			</CardHeader>
 			<CardContent>
 				<ResponsiveContainer width="100%" height={200}>
-					<LineChart data={chartData}>
+					<LineChart data={recent}>
 						<CartesianGrid strokeDasharray="3 3" className="stroke-border" />
 						<XAxis
 							dataKey="date"
 							fontSize={11}
 							tickLine={false}
 							axisLine={false}
+							interval="preserveStartEnd"
+							minTickGap={24}
 						/>
 						<YAxis fontSize={11} tickLine={false} axisLine={false} />
 						<Tooltip />
@@ -77,7 +83,7 @@ export function LabResultsChart({ results, testName }: LabResultsChartProps) {
 							dataKey="value"
 							stroke="hsl(var(--primary))"
 							strokeWidth={2}
-							dot={{ r: 4, fill: "hsl(var(--primary))" }}
+							dot={showDots ? { r: 4, fill: "hsl(var(--primary))" } : false}
 						/>
 					</LineChart>
 				</ResponsiveContainer>
