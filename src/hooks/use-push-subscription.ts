@@ -73,6 +73,16 @@ export function usePushSubscription() {
 		void syncState(false);
 	}, [syncState]);
 
+	// Keep every instance of this hook in sync: when the subscription changes
+	// in one place (e.g. the menu toggle), other instances (e.g. the prompt
+	// banner) re-read state so the banner disappears immediately.
+	useEffect(() => {
+		const onChange = () => void syncState(false);
+		window.addEventListener("tc:push-subscription-changed", onChange);
+		return () =>
+			window.removeEventListener("tc:push-subscription-changed", onChange);
+	}, [syncState]);
+
 	async function subscribeToPush() {
 		setError(null);
 		setIsLoading(true);
@@ -94,6 +104,7 @@ export function usePushSubscription() {
 			const serializedSub = JSON.parse(JSON.stringify(sub));
 			await subscribeUser(serializedSub);
 			setSubscription(sub);
+			window.dispatchEvent(new Event("tc:push-subscription-changed"));
 			return true;
 		} catch (err) {
 			const msg = err instanceof Error ? err.message : JSON.stringify(err);
@@ -109,6 +120,7 @@ export function usePushSubscription() {
 			await unsubscribeUser();
 			await subscription?.unsubscribe();
 			setSubscription(null);
+			window.dispatchEvent(new Event("tc:push-subscription-changed"));
 		} catch {
 			setError("Eroare la dezabonare.");
 		}
