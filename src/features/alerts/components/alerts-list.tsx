@@ -79,22 +79,21 @@ export function AlertsList({
 
 	function renderAlertCard(alert: AlertItem) {
 		const isDismissed = alert.dismissed;
+		const dotColor =
+			alert.severity === "critical"
+				? "var(--destructive)"
+				: alert.severity === "warning"
+					? "#f97316"
+					: "#3b82f6";
 		return (
-			<Card
-				key={alert.id}
-				className={`border-l-4 ${isDismissed ? "opacity-50" : ""}`}
-				style={{
-					borderLeftColor:
-						alert.severity === "critical"
-							? "var(--destructive)"
-							: alert.severity === "warning"
-								? "#f97316"
-								: "#3b82f6",
-				}}
-			>
+			<Card key={alert.id} className={isDismissed ? "opacity-50" : ""}>
 				<CardContent className="flex items-start justify-between gap-4 pt-4">
 					<div className="space-y-1">
 						<div className="flex flex-wrap items-center gap-2">
+							<span
+								className="size-2 shrink-0 rounded-full"
+								style={{ backgroundColor: dotColor }}
+							/>
 							<AlertBadge severity={alert.severity} />
 							<span className="text-sm font-medium">{alert.patientName}</span>
 							{isDismissed && (

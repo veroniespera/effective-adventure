@@ -9,6 +9,7 @@ interface PatientSummary {
 	status: "activ" | "inactiv";
 	activeAlerts: number;
 	complianceRate: number;
+	hasMedication: boolean;
 }
 
 interface PatientOverviewCardProps {
@@ -16,10 +17,13 @@ interface PatientOverviewCardProps {
 }
 
 function getHealthStatus(patient: PatientSummary) {
-	if (patient.activeAlerts > 0 && patient.complianceRate < 70) {
+	// Compliance only counts for patients who actually have a medication regimen.
+	const lowCompliance = patient.hasMedication && patient.complianceRate < 70;
+	const midCompliance = patient.hasMedication && patient.complianceRate < 90;
+	if (patient.activeAlerts > 0 && lowCompliance) {
 		return { icon: XCircle, color: "text-destructive", label: "Critic" };
 	}
-	if (patient.activeAlerts > 0 || patient.complianceRate < 90) {
+	if (patient.activeAlerts > 0 || midCompliance) {
 		return {
 			icon: AlertTriangle,
 			color: "text-orange-500 dark:text-orange-400",
@@ -63,12 +67,21 @@ export function PatientOverviewCard({ patient }: PatientOverviewCardProps) {
 						<p className="text-xs text-muted-foreground">Alerte</p>
 					</div>
 					<div className="rounded-md bg-muted p-2">
-						<p
-							className={`text-lg font-bold ${patient.complianceRate >= 90 ? "text-green-600" : patient.complianceRate >= 70 ? "text-orange-500" : "text-destructive"}`}
-						>
-							{patient.complianceRate}%
-						</p>
-						<p className="text-xs text-muted-foreground">Conformitate</p>
+						{patient.hasMedication ? (
+							<>
+								<p
+									className={`text-lg font-bold ${patient.complianceRate >= 90 ? "text-green-600" : patient.complianceRate >= 70 ? "text-orange-500" : "text-destructive"}`}
+								>
+									{patient.complianceRate}%
+								</p>
+								<p className="text-xs text-muted-foreground">Conformitate</p>
+							</>
+						) : (
+							<>
+								<p className="text-lg font-bold text-muted-foreground">—</p>
+								<p className="text-xs text-muted-foreground">Fără tratament</p>
+							</>
+						)}
 					</div>
 				</div>
 			</CardContent>

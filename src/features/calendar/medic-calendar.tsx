@@ -20,23 +20,26 @@ type Appointment = Awaited<ReturnType<typeof getAppointmentsForMedic>>[number];
 
 const severityConfig: Record<
 	string,
-	{ label: string; className: string; border: string }
+	{ label: string; className: string; border: string; dot: string }
 > = {
 	critical: {
 		label: "Critic",
 		className: "bg-red-100 text-red-800 dark:bg-red-950 dark:text-red-300",
 		border: "border-l-red-500",
+		dot: "bg-red-500",
 	},
 	warning: {
 		label: "Atenție",
 		className:
 			"bg-yellow-100 text-yellow-800 dark:bg-yellow-950 dark:text-yellow-300",
 		border: "border-l-yellow-500",
+		dot: "bg-yellow-500",
 	},
 	info: {
 		label: "Info",
 		className: "bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300",
 		border: "border-l-blue-500",
+		dot: "bg-blue-500",
 	},
 };
 
@@ -159,10 +162,15 @@ export function MedicCalendar() {
 								selectedAppointments.map((a) => {
 									const sev = severityConfig[a.severity] ?? severityConfig.info;
 									return (
-										<Card key={a.id} className={`border-l-4 ${sev.border}`}>
+										<Card key={a.id}>
 											<CardContent className="p-4 space-y-1">
 												<div className="flex items-center gap-2">
-													<p className="font-medium">{a.title}</p>
+													<p className="flex items-center gap-2 font-medium">
+														<span
+															className={`size-2 shrink-0 rounded-full ${sev.dot}`}
+														/>
+														{a.title}
+													</p>
 													<Badge className={sev.className}>{sev.label}</Badge>
 												</div>
 												<p className="text-sm text-muted-foreground">
