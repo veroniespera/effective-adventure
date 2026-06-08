@@ -4,12 +4,10 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
-// Match the phone status/address bar to the app background in light/dark.
+// Default for first paint; ThemeColorMeta then syncs it to the in-app theme's
+// real background color (light/dark/system) at runtime.
 export const viewport: Viewport = {
-	themeColor: [
-		{ media: "(prefers-color-scheme: light)", color: "#ffffff" },
-		{ media: "(prefers-color-scheme: dark)", color: "#242424" },
-	],
+	themeColor: "#ffffff",
 };
 
 export default function RootLayout({

@@ -10,6 +10,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 import { Suspense } from "react";
 import { PromptBannerSlot } from "@/components/pwa/prompt-banner-slot";
+import { ThemeColorMeta } from "@/components/theme-color-meta";
 
 export default function AuthenticatedRootLayout({
 	children,
@@ -30,6 +31,7 @@ export default function AuthenticatedRootLayout({
 	return (
 		<Suspense>
 			<ThemeProvider>
+				<ThemeColorMeta />
 				<DirectionProvider>
 					<AuthenticatedLayout>
 						<PromptBannerSlot />
