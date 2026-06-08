@@ -66,7 +66,7 @@ export function DoctorDashboard() {
 					</p>
 				</div>
 
-				<div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+				<div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 [&>*]:min-w-0">
 					<div className="flex flex-col gap-4">
 						<Card>
 							<CardContent className="flex items-center justify-around gap-4 py-4">
@@ -97,7 +97,7 @@ export function DoctorDashboard() {
 
 				<div>
 					<h3 className="mb-3 text-lg font-semibold">Pacienți activi</h3>
-					<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+					<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 [&>*]:min-w-0">
 						{activePatients.map((p) => (
 							<PatientOverviewCard key={p.id} patient={p} />
 						))}
