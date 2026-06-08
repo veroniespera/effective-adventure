@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
+import { authErrorMessage } from "@/features/auth/auth-errors";
 import { sendPasswordChangedEmail } from "@/features/auth/actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -51,11 +52,12 @@ export function ChangePasswordDialog({
 			});
 
 			if (error) {
-				toast.error(
+				const msg =
+					error.code === "INVALID_PASSWORD" ||
 					error.message === "Invalid password"
 						? "Parola curentă este incorectă."
-						: (error.message ?? "Eroare la schimbarea parolei."),
-				);
+						: authErrorMessage(error, "Eroare la schimbarea parolei.");
+				toast.error(msg);
 				return;
 			}
 

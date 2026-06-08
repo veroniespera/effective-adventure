@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { Loader2, LogIn } from "lucide-react";
 import { toast } from "sonner";
 import { signIn } from "@/lib/auth-client";
+import { authErrorMessage } from "@/features/auth/auth-errors";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,7 +24,9 @@ import { PasswordInput } from "@/components/password-input";
 const formSchema = z.object({
 	email: z.email({
 		error: (iss) =>
-			iss.input === "" ? "Introduceți adresa de e-mail" : undefined,
+			iss.input === ""
+				? "Introduceți adresa de e-mail"
+				: "Adresă de e-mail invalidă",
 	}),
 	password: z
 		.string()
@@ -55,7 +58,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
 		if (error) {
 			setIsLoading(false);
-			toast.error(error.message ?? "Eroare la conectare");
+			toast.error(authErrorMessage(error, "Eroare la conectare"));
 			return;
 		}
 

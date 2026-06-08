@@ -284,10 +284,10 @@ function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
 		<button
 			data-sidebar="rail"
 			data-slot="sidebar-rail"
-			aria-label="Toggle Sidebar"
+			aria-label="Comută bara laterală"
 			tabIndex={-1}
 			onClick={toggleSidebar}
-			title="Toggle Sidebar"
+			title="Comută bara laterală"
 			className={cn(
 				"absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear group-data-[side=left]:-end-4 group-data-[side=right]:start-0 after:absolute after:inset-y-0 after:start-1/2 after:w-[2px] hover:after:bg-sidebar-border sm:flex",
 				"in-data-[side=left]:cursor-w-resize in-data-[side=right]:cursor-e-resize",
@@ -611,6 +611,7 @@ function SidebarMenuSkeleton({
 }) {
 	// Random width between 50 to 90%.
 	const width = React.useMemo(() => {
+		// eslint-disable-next-line react-hooks/purity -- cosmetic skeleton width, randomized once on mount
 		return `${Math.floor(Math.random() * 40) + 50}%`;
 	}, []);
 

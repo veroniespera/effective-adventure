@@ -72,7 +72,7 @@ function PaginationPrevious({
 }: React.ComponentProps<typeof PaginationLink>) {
 	return (
 		<PaginationLink
-			aria-label="Go to previous page"
+			aria-label="Mergi la pagina anterioară"
 			size="default"
 			className={cn("pl-1.5!", className)}
 			{...props}
@@ -82,7 +82,7 @@ function PaginationPrevious({
 				strokeWidth={2}
 				data-icon="inline-start"
 			/>
-			<span className="hidden sm:block">Previous</span>
+			<span className="hidden sm:block">Anterior</span>
 		</PaginationLink>
 	);
 }
@@ -93,12 +93,12 @@ function PaginationNext({
 }: React.ComponentProps<typeof PaginationLink>) {
 	return (
 		<PaginationLink
-			aria-label="Go to next page"
+			aria-label="Mergi la pagina următoare"
 			size="default"
 			className={cn("pr-1.5!", className)}
 			{...props}
 		>
-			<span className="hidden sm:block">Next</span>
+			<span className="hidden sm:block">Următor</span>
 			<HugeiconsIcon
 				icon={ArrowRight01Icon}
 				strokeWidth={2}
@@ -123,7 +123,7 @@ function PaginationEllipsis({
 			{...props}
 		>
 			<HugeiconsIcon icon={MoreHorizontalCircle01Icon} strokeWidth={2} />
-			<span className="sr-only">More pages</span>
+			<span className="sr-only">Mai multe pagini</span>
 		</span>
 	);
 }

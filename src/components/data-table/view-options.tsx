@@ -26,11 +26,11 @@ export function DataTableViewOptions<TData>({
 					className="ms-auto hidden h-8 lg:flex"
 				>
 					<MixerHorizontalIcon className="size-4" />
-					View
+					Coloane
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" className="w-[150px]">
-				<DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+				<DropdownMenuLabel>Afișează/ascunde coloane</DropdownMenuLabel>
 				<DropdownMenuSeparator />
 				{table
 					.getAllColumns()

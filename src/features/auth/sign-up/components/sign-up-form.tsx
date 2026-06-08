@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { signUp } from "@/lib/auth-client";
+import { authErrorMessage } from "@/features/auth/auth-errors";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,7 +24,9 @@ const formSchema = z
 		name: z.string().min(1, "Introduceți numele"),
 		email: z.email({
 			error: (iss) =>
-				iss.input === "" ? "Introduceți adresa de e-mail" : undefined,
+				iss.input === ""
+					? "Introduceți adresa de e-mail"
+					: "Adresă de e-mail invalidă",
 		}),
 		password: z
 			.string()
@@ -64,7 +67,7 @@ export function SignUpForm({
 
 		if (error) {
 			setIsLoading(false);
-			toast.error(error.message ?? "Eroare la crearea contului");
+			toast.error(authErrorMessage(error, "Eroare la crearea contului"));
 			return;
 		}
 

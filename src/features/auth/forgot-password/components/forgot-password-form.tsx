@@ -21,7 +21,9 @@ import { requestPasswordReset } from "../actions";
 const formSchema = z.object({
 	email: z.email({
 		error: (iss) =>
-			iss.input === "" ? "Introduceți adresa de e-mail" : undefined,
+			iss.input === ""
+				? "Introduceți adresa de e-mail"
+				: "Adresă de e-mail invalidă",
 	}),
 });
 

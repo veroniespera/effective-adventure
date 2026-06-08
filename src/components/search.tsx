@@ -9,10 +9,7 @@ type SearchProps = {
 	placeholder?: string;
 };
 
-export function Search({
-	className = "",
-	placeholder = "Search",
-}: SearchProps) {
+export function Search({ className = "", placeholder = "Caută" }: SearchProps) {
 	const { setOpen } = useSearch();
 	return (
 		<Button

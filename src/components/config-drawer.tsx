@@ -70,9 +70,9 @@ export function ConfigDrawer() {
 					<Button
 						variant="destructive"
 						onClick={handleReset}
-						aria-label="Reset all settings to default values"
+						aria-label="Resetează toate setările la valorile implicite"
 					>
-						Reset
+						Resetează
 					</Button>
 				</SheetFooter>
 			</SheetContent>

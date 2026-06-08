@@ -96,7 +96,7 @@ export function NavUser({ user }: NavUserProps) {
 								onClick={() => setOpen(true)}
 							>
 								<LogOut />
-								Sign out
+								Deconectare
 							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
