@@ -46,7 +46,7 @@ export function ConfigDrawer() {
 				<Button
 					size="icon"
 					variant="ghost"
-					aria-label="Open theme settings"
+					aria-label="Deschide setările temei"
 					aria-describedby="config-drawer-description"
 					className="rounded-full"
 				>
