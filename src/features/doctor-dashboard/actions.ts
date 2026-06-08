@@ -51,6 +51,7 @@ export async function getDoctorDashboardData() {
 					status: p.status as "activ" | "inactiv",
 					activeAlerts: 0,
 					complianceRate: 0,
+					hasMedication: false,
 				};
 			}
 
@@ -66,6 +67,7 @@ export async function getDoctorDashboardData() {
 				.where(eq(medication.patientId, p.userId));
 
 			let complianceRate = 100;
+			let hasMedication = false;
 			const medIds = meds.map((m) => m.id);
 			if (medIds.length > 0) {
 				const logs = await db
@@ -74,6 +76,7 @@ export async function getDoctorDashboardData() {
 					.where(inArray(medicationLog.medicationId, medIds));
 
 				if (logs.length > 0) {
+					hasMedication = true;
 					const taken = logs.filter((l) => l.status === "luat").length;
 					complianceRate = Math.round((taken / logs.length) * 100);
 				}
@@ -87,6 +90,7 @@ export async function getDoctorDashboardData() {
 				status: p.status as "activ" | "inactiv",
 				activeAlerts: patientAlerts.length,
 				complianceRate,
+				hasMedication,
 			};
 		}),
 	);
